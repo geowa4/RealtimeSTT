@@ -200,7 +200,7 @@ class TranscriptionWorker:
             self.conn.close()
             self.stdout_pipe.close()
             self.shutdown_event.set()  # Ensure the polling thread will stop
-            polling_thread.join()  # Wait for the polling thread to finish
+            polling_thread.join(timeout=10)  # Wait for the polling thread to finish
 
 
 class bcolors:
@@ -1700,7 +1700,7 @@ class AudioToTextRecorder:
 
             logging.debug('Finishing recording thread')
             if self.recording_thread:
-                self.recording_thread.join()
+                self.recording_thread.join(timeout=10)
 
             logging.debug('Terminating reader process')
 
@@ -1727,7 +1727,7 @@ class AudioToTextRecorder:
 
             logging.debug('Finishing realtime thread')
             if self.realtime_thread:
-                self.realtime_thread.join()
+                self.realtime_thread.join(timeout=10)
 
             if self.enable_realtime_transcription:
                 if self.realtime_model_type:
